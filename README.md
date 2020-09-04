@@ -166,3 +166,41 @@ En el segundo método también se ordena una lista haciendo una modificación de
 Sin embargo, con este código, si se encuentra un cambio se corta la pasada y se inicia una nueva, aunque al terminar la llamada recursiva se continúa con la pasada
 
 En ambos casos, la peor lista que se le puede dar como entrada es una lista ordenada de forma inversa (en este caso, de forma decreciente según el criterio del `compare`) porque en cada pasada se tienen que hacer `n`  veces la operación `swap`
+
+### Apartado b)
+
+Para el primer algoritmo, en el caso de tamaño `n`, hacemos una pasada por la lista (`n` operaciones), y llamamos a la función quitando el último elemento, con lo que queda $$T(n) = n + T(n-1)$$
+
+En el segundo caso, el pero caso es que en cada llamada el primer elemento esté mal ordenado y haya que cambiarlo y llamar recursivamente, con lo que quedaría: $$T(n) = 1 + T(n-1)$$
+
+En ambos casos, se tiene que $T(1) = 1$ al ser el caso base que se resuelve con un `return`
+
+### Apartado c)
+
+En la primera recurrencia tenemos:
+
+$$T(n) = T(n-1) + n$$
+$$T(1) = 1$$
+
+En este caso, no hace falta usar ecuaciones de resolución, basta con caer en la cuenta del siguiente desarrollo, expandiendo la función recursiva:
+
+$$T(n) = T(n - 1) + n = (n-1 + T(n-2)) = \ldots$$
+$$\ldots = (n-1 + (n-2 + T(n-3))) + n = \ldots$$
+$$\ldots = n + (n-1) + (n-2) + \ldots + T(1) = n + (n-1) + (n-2) + \ldots + 1 = \ldots$$
+$$\ldots = \sum_{i = 1}^{n}{i} = \frac{n * (n-1)}{2} \approx O(n^2)$$
+
+Donde en el último paso hemos usado la suma de los primeros $n$ dígitos de Gauss
+
+En la segunda recurencia tenemos:
+
+$$T(n) = T(n-1) + 1$$
+$$T(1) = 1$$
+
+De nuevo, podemos resolver con la misma idea pues la recurrencia es muy sencilla:
+
+$$T(n) = T(n-1) + 1 = T(n-2) + 1 + 1 = T(n-2) + 2 = \ldots$$
+$$ \ldots = T(n -  3) + 3 = \ldots$$
+$$ \vdots $$
+$$ = T(n-k) + k = $$
+$$ \vdots$$
+$$ = T(n - (n-1)) + (n-1) = T(1) + (n-1) = 1 + (n - 1) = n \approx O(n)$$
