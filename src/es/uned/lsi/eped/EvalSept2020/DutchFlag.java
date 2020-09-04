@@ -17,15 +17,15 @@ public class DutchFlag {
 		System.out.println();
 		System.out.println("--------------------------");
 	}
-	
-	
+
+
 	//@Pre: n>=3
 	/*genera una lista de caracteres con logitud mínima n
-	 *tal que cumple la precondición del problema de la 
+	 *tal que cumple la precondición del problema de la
 	 *bandera holandesa (al menos un elemento de cada color) */
 
 	public static ListIF<Character> generateDutchFlagInput(int n) {
-		ListIF<Character> L = new List<Character>();  
+		ListIF<Character> L = new List<Character>();
 		Random R = new Random();
 		//bR <-> se ha insertado al menos un valor R
 		boolean bR = false;
@@ -65,19 +65,63 @@ public class DutchFlag {
 		}
 		return L;
 	}
-	
-	//@Pre: añadir precondición 
+
+	//@Pre: los indices i, j deben señalar posiciones validas de la lista, es decir
+    //      1 <= i, j <= size(L)
+    //@Pre: i != j
 	public static <E> void swap(ListIF<E> L,int i, int j) {
-		//programar método
+        // Comprobacion de seguridad
+        if(i < 1 || i > L.size()){
+            System.out.println("ERROR! En el metodo swap. No se hace nada");
+            System.out.println("\tEl primer indice no es valido");
+            return; // Para salir de la funcion por un error
+        }
+        if (j < 1 || j > L.size()){
+            System.out.println("ERROR! En el metodo swap. No se hace nada");
+            System.out.println("\tEl segundo indice no es valido");
+            return; // Para salir de la funcion por un error
+        }
+        if(i == j){
+            System.out.println("ERROR! En el metodo swap. No se hace nada");
+            System.out.println("\tLos indices deben ser distintos");
+            return; // Para salir de la funcion por un error
+        }
+
+        // Hago el cambio con los metodos que ofrece la interfaz
+        // Tomo los dos elementos con un get y los cambio con el set
+        E first = L.get(i);
+        E second = L.get(j);
+        L.set(i, second);
+        L.set(j, first);
 	}
-	
-	
-	//@Pre: añadir precondición 
+
+
+	//@Pre: L debe ser una lista con al menos los caracteres 'R', 'B', 'A'
+    //@Pre: L no debe tener elementos que no sean los anteriores caracteres
 	public static void dutchFlag(ListIF<Character> L) {
-		//programar método
+        // Los tres pivotes con los que juego
+        int firstPivot = 1;
+        int secondPivot = 1;
+        int thirdPivot = L.size();
+
+        // El valor que tiene que quedar en medio es 'B'
+        char centralValue = 'B';
+
+        while(secondPivot <= L.size()){
+            if(L.get(secondPivot) < centralValue){
+                swap(L, firstPivot, secondPivot);
+                firstPivot = firstPivot + 1;
+                secondPivot = secondPivot + 1;
+            }else if(L.get(secondPivot) > centralValue){
+                thirdPivot = thirdPivot - 1;
+                swap(L, secondPivot, thirdPivot);
+            }else{
+                secondPivot = secondPivot + 1;
+            }
+        }
 	}
-	
-	
+
+
 	public static void main(String [] args) {
 		int n = 10;
 		ListIF<Character> L = generateDutchFlagInput(n);
@@ -85,6 +129,6 @@ public class DutchFlag {
 		dutchFlag(L);
 		printList(L);
 	}
-	
-	
+
+
 }
