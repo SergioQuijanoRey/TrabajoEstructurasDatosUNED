@@ -99,22 +99,39 @@ public class DutchFlag {
 	//@Pre: L debe ser una lista con al menos los caracteres 'R', 'B', 'A'
     //@Pre: L no debe tener elementos que no sean los anteriores caractees
 	public static void dutchFlag(ListIF<Character> L) {
-            int firstPivot = 1;
-            int secondPivot = 1;
-            int thirdPivot = L.size() + 1;
+        // Con estos tres pivotes, tengo controlados los limites de los tres grupos de letras
+        int firstPivot = 1;                 // Superior del grupo de 'R'
+        int secondPivot = 1;                // Superior del grupo de 'B' => grupo del medio
+        int thirdPivot = L.size() + 1;      // Inferior del grupo de 'A'
 
-            while(secondPivot < thirdPivot){
-                if(L.get(secondPivot) == 'R'){
+        // Los elementos del grupo del medio son los que estan entre el segundo y tercer pivote
+        // Estos son los elementos que no han sido ordenados, asi que iteramos hasta agotar
+        // este grupo de elementos no ordenados
+        while(secondPivot < thirdPivot){
+            // Tomamos el primer elemento del grupo que no ha sido ordenado
+            switch(L.get(secondPivot)){
+                // Tiene que ir al grupo de las R
+                // Asi que lo movemos hacia la izquierda
+                case 'R':
                     swap(L, firstPivot, secondPivot);
                     firstPivot = firstPivot + 1;
                     secondPivot = secondPivot + 1;
-                }else if(L.get(secondPivot) == 'A'){
+                    break;
+
+                // Tiene que ir al grupo de las R
+                // Asi que lo movemos a la derecha
+                case 'A':
                     thirdPivot = thirdPivot - 1;
                     swap(L, secondPivot, thirdPivot);
-                }else{
+                    break;
+
+                // Esta bien colocado
+                // Asi que avanzamos al siguiente elemento no ordenado
+                default:
                     secondPivot = secondPivot + 1;
-                }
+
             }
+        }
 	}
 
 
