@@ -99,20 +99,20 @@ public class DutchFlag {
 	//@Pre: L debe ser una lista con al menos los caracteres 'R', 'B', 'A'
     //@Pre: L no debe tener elementos que no sean los anteriores caractees
 	public static void dutchFlag(ListIF<Character> L) {
-            int i = 1;
-            int j = 1;
-            int k = L.size() + 1;
+            int firstPivot = 1;
+            int secondPivot = 1;
+            int thirdPivot = L.size() + 1;
 
-            while(j < k){
-                if(L.get(j) == 'R'){
-                    swap(L, i, j);
-                    i = i + 1;
-                    j = j + 1;
-                }else if(L.get(j) == 'A'){
-                    k = k - 1;
-                    swap(L, j, k);
+            while(secondPivot < thirdPivot){
+                if(L.get(secondPivot) == 'R'){
+                    swap(L, firstPivot, secondPivot);
+                    firstPivot = firstPivot + 1;
+                    secondPivot = secondPivot + 1;
+                }else if(L.get(secondPivot) == 'A'){
+                    thirdPivot = thirdPivot - 1;
+                    swap(L, secondPivot, thirdPivot);
                 }else{
-                    j = j + 1;
+                    secondPivot = secondPivot + 1;
                 }
             }
 	}
